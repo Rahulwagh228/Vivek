@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import gsap from 'gsap';
 
@@ -27,10 +27,21 @@ export default function RotatingCircles() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const leftCircleRef = useRef<HTMLDivElement>(null);
   const rightCircleRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: false, margin: '-100px' });
+  const isInView = useInView(sectionRef, { once: true, margin: '-50px' });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (isInView) {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Only run GSAP animations on desktop
+    if (isInView && !isMobile) {
       // Animate left circle
       if (leftCircleRef.current) {
         gsap.to(leftCircleRef.current, {
@@ -51,7 +62,17 @@ export default function RotatingCircles() {
         });
       }
     }
-  }, [isInView]);
+
+    return () => {
+      // Clean up GSAP animations
+      if (leftCircleRef.current) {
+        gsap.killTweensOf(leftCircleRef.current);
+      }
+      if (rightCircleRef.current) {
+        gsap.killTweensOf(rightCircleRef.current);
+      }
+    };
+  }, [isInView, isMobile]);
 
   // Calculate positions on circle
   const getPosition = (index: number, total: number, radius: number) => {
@@ -62,24 +83,31 @@ export default function RotatingCircles() {
     };
   };
 
+  // Adjust radius based on screen size
+  const radius = isMobile ? 115 : 280;
+  const offset = isMobile ? 30 : 55;
+
   return (
     <section className="rotating-circles" ref={sectionRef}>
       {/* Left Half Circle */}
       <div className="half-circle-left">
         <div className="circle-path" ref={leftCircleRef}>
           {leftPhotos.map((photo, index) => {
-            const pos = getPosition(index, leftPhotos.length, 280);
+            const pos = getPosition(index, leftPhotos.length, radius);
             return (
               <motion.div
                 key={`left-${index}`}
                 className="photo-item"
                 style={{
-                  left: `calc(50% + ${pos.x}px - 55px)`,
-                  top: `calc(50% + ${pos.y}px - 55px)`,
+                  left: `calc(50% + ${pos.x}px - ${offset}px)`,
+                  top: `calc(50% + ${pos.y}px - ${offset}px)`,
                 }}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                transition={{ 
+                  delay: isMobile ? index * 0.05 : index * 0.1, 
+                  duration: isMobile ? 0.3 : 0.5 
+                }}
               >
                 <img 
                   src={photo}
@@ -100,9 +128,9 @@ export default function RotatingCircles() {
       {/* Center Content */}
       <motion.div
         className="section-content"
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: isMobile ? 20 : 50 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        transition={{ duration: isMobile ? 0.4 : 0.8, delay: isMobile ? 0.1 : 0.3 }}
       >
         <h2>Memorable Moments</h2>
         <p>
@@ -115,18 +143,21 @@ export default function RotatingCircles() {
       <div className="half-circle-right">
         <div className="circle-path" ref={rightCircleRef}>
           {rightPhotos.map((photo, index) => {
-            const pos = getPosition(index, rightPhotos.length, 280);
+            const pos = getPosition(index, rightPhotos.length, radius);
             return (
               <motion.div
                 key={`right-${index}`}
                 className="photo-item"
                 style={{
-                  left: `calc(50% + ${pos.x}px - 55px)`,
-                  top: `calc(50% + ${pos.y}px - 55px)`,
+                  left: `calc(50% + ${pos.x}px - ${offset}px)`,
+                  top: `calc(50% + ${pos.y}px - ${offset}px)`,
                 }}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                transition={{ delay: 0.5 + index * 0.1, duration: 0.5 }}
+                transition={{ 
+                  delay: isMobile ? 0.2 + index * 0.05 : 0.5 + index * 0.1, 
+                  duration: isMobile ? 0.3 : 0.5 
+                }}
               >
                 <img 
                   src={photo}

@@ -1,15 +1,23 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import gsap from 'gsap';
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (titleRef.current) {
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    if (titleRef.current && !isMobile) {
       gsap.fromTo(
         titleRef.current.children,
         { y: 100, opacity: 0 },
@@ -22,27 +30,42 @@ export default function Hero() {
           delay: 0.3,
         }
       );
+    } else if (titleRef.current && isMobile) {
+      // Simple fade-in for mobile
+      gsap.fromTo(
+        titleRef.current.children,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.05,
+          ease: 'power2.out',
+          delay: 0.2,
+        }
+      );
     }
-  }, []);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [isMobile]);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
+        staggerChildren: isMobile ? 0.08 : 0.15,
+        delayChildren: isMobile ? 0.1 : 0.3,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: isMobile ? 15 : 30, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.8,
+        duration: isMobile ? 0.4 : 0.8,
         ease: [0.4, 0, 0.2, 1] as const,
       },
     },
