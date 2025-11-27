@@ -20,9 +20,11 @@ export default function NecklaceGallery() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
   const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const floatingRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    setIsMounted(true);
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
@@ -32,7 +34,7 @@ export default function NecklaceGallery() {
   }, []);
 
   useEffect(() => {
-    if (isInView && !isMobile) {
+    if (isInView && !isMobile && isMounted) {
       // Create floating animation for photos
       floatingRefs.current.forEach((item, index) => {
         if (item) {
@@ -61,7 +63,7 @@ export default function NecklaceGallery() {
         if (item) gsap.killTweensOf(item);
       });
     };
-  }, [isInView, isMobile]);
+  }, [isInView, isMobile, isMounted]);
 
   // Animation variants for mobile
   const containerVariants = {
@@ -126,7 +128,7 @@ export default function NecklaceGallery() {
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
       >
-        {photos.map((photo, index) => (
+        {isMounted && photos.map((photo, index) => (
           <motion.div
             key={index}
             ref={(el) => { floatingRefs.current[index] = el; }}
