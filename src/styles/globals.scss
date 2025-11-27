@@ -1,0 +1,106 @@
+// Global Variables
+$color-white: #ffffff;
+$color-gray-50: #fafafa;
+$color-gray-100: #f5f5f5;
+$color-gray-200: #e5e5e5;
+$color-gray-300: #d4d4d4;
+$color-gray-400: #a3a3a3;
+$color-gray-500: #737373;
+$color-gray-600: #525252;
+$color-gray-700: #404040;
+$color-gray-800: #262626;
+$color-gray-900: #171717;
+
+$font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+// Base Styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-primary;
+  background-color: $color-gray-50;
+  color: $color-gray-800;
+  overflow-x: hidden;
+}
+
+// Utility Classes
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+// Selection
+::selection {
+  background-color: $color-gray-300;
+  color: $color-gray-900;
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $color-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-gray-400;
+  border-radius: 4px;
+  
+  &:hover {
+    background: $color-gray-500;
+  }
+}
+
+// Link Reset
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+// Image Reset
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Button Reset
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+// Placeholder image styles
+.placeholder-img {
+  background: linear-gradient(135deg, $color-gray-200 0%, $color-gray-300 50%, $color-gray-200 100%);
+  background-size: 200% 200%;
+  animation: shimmer 3s ease infinite;
+  
+  &.alt {
+    background: linear-gradient(135deg, $color-gray-300 0%, $color-gray-400 50%, $color-gray-300 100%);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

@@ -1,0 +1,120 @@
+@use '../variables' as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.5rem 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.scrolled {
+    background: rgba($color-white, 0.9);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    padding: 1rem 0;
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: $color-gray-900;
+    
+    span {
+      color: $color-gray-400;
+    }
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 3rem;
+    
+    a {
+      position: relative;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: $color-gray-600;
+      transition: color 0.3s ease;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: $color-gray-900;
+        transition: width 0.3s ease;
+      }
+      
+      &:hover {
+        color: $color-gray-900;
+        
+        &::after {
+          width: 100%;
+        }
+      }
+      
+      &.active {
+        color: $color-gray-900;
+        
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+  
+  .nav-cta {
+    padding: 0.75rem 1.75rem;
+    background: $color-gray-900;
+    color: $color-white;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: $color-gray-700;
+      transform: translateY(-2px);
+    }
+  }
+  
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    
+    span {
+      width: 28px;
+      height: 2px;
+      background: $color-gray-900;
+      transition: all 0.3s ease;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+    
+    .nav-cta {
+      display: none;
+    }
+    
+    .menu-toggle {
+      display: flex;
+    }
+  }
+}

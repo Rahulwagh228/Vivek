@@ -1,0 +1,205 @@
+@use '../variables' as *;
+
+.rotating-circles {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: $color-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .section-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 600px;
+    padding: 2rem;
+    
+    h2 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: $color-gray-900;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      font-size: 1.1rem;
+      color: $color-gray-500;
+      line-height: 1.7;
+    }
+  }
+  
+  // Left rotating circle
+  .half-circle-left {
+    position: absolute;
+    left: -250px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 500px;
+    height: 500px;
+    
+    .circle-path {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px dashed $color-gray-200;
+      animation: rotateAntiClockwise 30s linear infinite;
+    }
+    
+    .photo-item {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 3px solid $color-white;
+      background: $color-gray-100;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      // Position photos around the circle
+      @for $i from 1 through 6 {
+        &:nth-child(#{$i + 1}) {
+          $angle: ($i - 1) * 60deg;
+          top: calc(50% + 210px * sin(#{$angle}) - 40px);
+          left: calc(50% + 210px * cos(#{$angle}) - 40px);
+          animation: counterRotate 30s linear infinite;
+        }
+      }
+    }
+  }
+  
+  // Right rotating circle
+  .half-circle-right {
+    position: absolute;
+    right: -250px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 500px;
+    height: 500px;
+    
+    .circle-path {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px dashed $color-gray-200;
+      animation: rotateAntiClockwise 25s linear infinite reverse;
+    }
+    
+    .photo-item {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 3px solid $color-white;
+      background: $color-gray-100;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      @for $i from 1 through 6 {
+        &:nth-child(#{$i + 1}) {
+          $angle: ($i - 1) * 60deg + 30deg;
+          top: calc(50% + 210px * sin(#{$angle}) - 40px);
+          left: calc(50% + 210px * cos(#{$angle}) - 40px);
+          animation: counterRotate 25s linear infinite reverse;
+        }
+      }
+    }
+  }
+}
+
+@keyframes rotateAntiClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes counterRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive
+@media (max-width: 1200px) {
+  .rotating-circles {
+    .half-circle-left,
+    .half-circle-right {
+      width: 400px;
+      height: 400px;
+      
+      .photo-item {
+        width: 60px;
+        height: 60px;
+        
+        @for $i from 1 through 6 {
+          &:nth-child(#{$i + 1}) {
+            $angle: ($i - 1) * 60deg;
+            top: calc(50% + 170px * sin(#{$angle}) - 30px);
+            left: calc(50% + 170px * cos(#{$angle}) - 30px);
+          }
+        }
+      }
+    }
+    
+    .half-circle-left {
+      left: -200px;
+    }
+    
+    .half-circle-right {
+      right: -200px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .rotating-circles {
+    min-height: 80vh;
+    
+    .half-circle-left,
+    .half-circle-right {
+      width: 300px;
+      height: 300px;
+      
+      .photo-item {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    
+    .half-circle-left {
+      left: -150px;
+    }
+    
+    .half-circle-right {
+      right: -150px;
+    }
+    
+    .section-content {
+      h2 {
+        font-size: 2rem;
+      }
+    }
+  }
+}

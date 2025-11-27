@@ -1,0 +1,195 @@
+@use '../variables' as *;
+
+.necklace-gallery {
+  position: relative;
+  padding: 8rem 0;
+  background: linear-gradient(180deg, $color-white 0%, $color-gray-50 100%);
+  overflow: hidden;
+  
+  .section-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 5rem;
+    padding: 0 2rem;
+    
+    h2 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: $color-gray-900;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      font-size: 1.1rem;
+      color: $color-gray-500;
+      line-height: 1.7;
+    }
+  }
+  
+  .necklace-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    
+    .necklace-curve {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      height: 100%;
+    }
+    
+    .necklace-item {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      border: 4px solid $color-white;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      &:hover {
+        transform: scale(1.15);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+      }
+      
+      // Positions forming a necklace/arc shape
+      &:nth-child(1) {
+        left: 5%;
+        top: 20%;
+      }
+      
+      &:nth-child(2) {
+        left: 15%;
+        top: 40%;
+      }
+      
+      &:nth-child(3) {
+        left: 28%;
+        top: 55%;
+      }
+      
+      &:nth-child(4) {
+        left: 42%;
+        top: 65%;
+      }
+      
+      // Center pendant (larger)
+      &:nth-child(5) {
+        left: 50%;
+        top: 70%;
+        transform: translateX(-50%);
+        width: 130px;
+        height: 130px;
+        border-width: 5px;
+        
+        &:hover {
+          transform: translateX(-50%) scale(1.1);
+        }
+      }
+      
+      &:nth-child(6) {
+        right: 42%;
+        top: 65%;
+        left: auto;
+      }
+      
+      &:nth-child(7) {
+        right: 28%;
+        top: 55%;
+        left: auto;
+      }
+      
+      &:nth-child(8) {
+        right: 15%;
+        top: 40%;
+        left: auto;
+      }
+      
+      &:nth-child(9) {
+        right: 5%;
+        top: 20%;
+        left: auto;
+      }
+    }
+    
+    // Connecting line (chain)
+    .necklace-chain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      
+      svg {
+        width: 100%;
+        height: 100%;
+        
+        path {
+          fill: none;
+          stroke: $color-gray-300;
+          stroke-width: 2;
+          stroke-dasharray: 8 8;
+        }
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .necklace-gallery {
+    .necklace-container {
+      height: 500px;
+      
+      .necklace-item {
+        width: 80px;
+        height: 80px;
+        
+        &:nth-child(5) {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .necklace-gallery {
+    padding: 5rem 0;
+    
+    .section-header {
+      h2 {
+        font-size: 2.5rem;
+      }
+    }
+    
+    .necklace-container {
+      height: 400px;
+      
+      .necklace-item {
+        width: 60px;
+        height: 60px;
+        border-width: 3px;
+        
+        &:nth-child(5) {
+          width: 80px;
+          height: 80px;
+        }
+      }
+    }
+  }
+}

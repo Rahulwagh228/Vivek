@@ -1,0 +1,137 @@
+@use '../variables' as *;
+
+.horizontal-stats {
+  position: relative;
+  padding: 6rem 0;
+  overflow: hidden;
+  background: $color-gray-900;
+  
+  .stats-marquee {
+    display: flex;
+    
+    .marquee-content {
+      display: flex;
+      animation: marquee 30s linear infinite;
+      
+      &:hover {
+        animation-play-state: paused;
+      }
+    }
+    
+    .stat-card {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 2rem 4rem;
+      margin: 0 1rem;
+      background: rgba($color-white, 0.05);
+      border: 1px solid rgba($color-white, 0.1);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
+      
+      &:hover {
+        background: rgba($color-white, 0.1);
+        transform: translateY(-4px);
+      }
+      
+      .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba($color-white, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+      
+      .stat-info {
+        .stat-value {
+          font-size: 2rem;
+          font-weight: 800;
+          color: $color-white;
+          letter-spacing: -0.02em;
+        }
+        
+        .stat-label {
+          font-size: 0.9rem;
+          color: rgba($color-white, 0.6);
+          margin-top: 0.25rem;
+        }
+      }
+    }
+  }
+  
+  // Reverse direction for second row
+  .stats-marquee-reverse {
+    margin-top: 1.5rem;
+    
+    .marquee-content {
+      animation-direction: reverse;
+    }
+  }
+  
+  // Gradient overlays
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  
+  &::before {
+    left: 0;
+    background: linear-gradient(90deg, $color-gray-900, transparent);
+  }
+  
+  &::after {
+    right: 0;
+    background: linear-gradient(-90deg, $color-gray-900, transparent);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .horizontal-stats {
+    padding: 4rem 0;
+    
+    .stats-marquee {
+      .stat-card {
+        padding: 1.5rem 2rem;
+        gap: 1.5rem;
+        
+        .stat-icon {
+          width: 50px;
+          height: 50px;
+        }
+        
+        .stat-info {
+          .stat-value {
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+}
