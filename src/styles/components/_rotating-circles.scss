@@ -10,22 +10,14 @@
   justify-content: center;
   padding: 4rem 0;
   
-  // Mobile View Styles
-  &.mobile-view {
-    flex-direction: column;
-    min-height: auto;
-    padding: 4rem 1.5rem;
-    gap: 2rem;
-    
-    .section-content {
-      position: relative;
-      order: -1;
-      margin-bottom: 1rem;
-    }
+  .desktop-view {
+    position: absolute;
+    inset: 0;
+    display: block;
   }
   
   .mobile-grid {
-    display: grid;
+    display: none; // Hidden on desktop
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     width: 100%;
@@ -122,8 +114,8 @@
     
     .photo-item {
       position: absolute;
-      width: 110px;
-      height: 110px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       overflow: hidden;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
@@ -148,8 +140,8 @@
       @for $i from 1 through 6 {
         &:nth-child(#{$i + 1}) {
           $angle: ($i - 1) * 60deg;
-          top: calc(50% + 280px * sin(#{$angle}) - 55px);
-          left: calc(50% + 280px * cos(#{$angle}) - 55px);
+          top: calc(50% + 320px * sin(#{$angle}) - 65px);
+          left: calc(50% + 320px * cos(#{$angle}) - 65px);
           animation: counterRotate 30s linear infinite;
         }
       }
@@ -178,8 +170,8 @@
     
     .photo-item {
       position: absolute;
-      width: 110px;
-      height: 110px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       overflow: hidden;
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
@@ -200,11 +192,11 @@
         object-fit: cover;
       }
       
-      @for $i from 1 through 6 {
+        @for $i from 1 through 6 {
         &:nth-child(#{$i + 1}) {
           $angle: ($i - 1) * 60deg + 30deg;
-          top: calc(50% + 280px * sin(#{$angle}) - 55px);
-          left: calc(50% + 280px * cos(#{$angle}) - 55px);
+          top: calc(50% + 320px * sin(#{$angle}) - 65px);
+          left: calc(50% + 320px * cos(#{$angle}) - 65px);
           animation: counterRotate 25s linear infinite reverse;
         }
       }
@@ -358,13 +350,19 @@
 // Responsive - Mobile (using new grid layout via JS)
 @media (max-width: 768px) {
   .rotating-circles {
-    // Hide rotating circles on mobile (handled by JS with mobile-view class)
-    .half-circle-left,
-    .half-circle-right {
+    padding: 3rem 1rem;
+    min-height: auto;
+    flex-direction: column;
+    gap: 2rem;
+    
+    // Hide desktop rotating circles on mobile
+    .desktop-view {
       display: none;
     }
     
     .section-content {
+      order: -1;
+      
       h2 {
         font-size: 1.8rem;
         margin-bottom: 1rem;
@@ -376,13 +374,53 @@
       }
     }
     
-    // Mobile grid specific adjustments
-    &.mobile-view {
-      .mobile-grid {
-        gap: 10px;
+    // Show mobile grid on mobile
+    .mobile-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      
+      .mobile-photo-item {
+        aspect-ratio: 1;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
         
-        .mobile-photo-item {
-          border-radius: 12px;
+        &.featured {
+          grid-column: span 2;
+          aspect-ratio: 2/1;
+          border-radius: 16px;
+        }
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        
+        .photo-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.2) 0%,
+            transparent 50%
+          );
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        &:active {
+          .photo-overlay {
+            opacity: 1;
+          }
+          
+          img {
+            transform: scale(1.05);
+          }
         }
       }
     }

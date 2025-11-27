@@ -85,9 +85,9 @@ export default function RotatingCircles() {
     };
   };
 
-  // Adjust radius based on screen size
-  const radius = 280;
-  const offset = 55;
+  // Adjust radius based on screen size - increased for larger photos
+  const radius = 320;
+  const offset = 65;
 
   // Mobile grid animation variants
   const containerVariants = {
@@ -115,94 +115,89 @@ export default function RotatingCircles() {
     },
   };
 
-  // Mobile View - Sleek Grid Layout
-  if (isMobile) {
-    return (
-      <section className="rotating-circles mobile-view" ref={sectionRef}>
-        <motion.div
-          className="section-content"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          <h2>Memorable Moments</h2>
-          <p>
-            A collection of inspiring moments captured throughout the journey 
-            of making a difference in the world.
-          </p>
-        </motion.div>
-
-        <motion.div
-          className="mobile-grid"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-        >
-          {allPhotos.slice(0, 8).map((photo, index) => (
-            <motion.div
-              key={`mobile-${index}`}
-              className={`mobile-photo-item ${index === 0 ? 'featured' : ''}`}
-              variants={itemVariants}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <img 
-                src={photo}
-                alt={`Gallery photo ${index + 1}`}
-              />
-              <div className="photo-overlay" />
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-    );
-  }
-
-  // Desktop View - Rotating Circles
   return (
     <section className="rotating-circles" ref={sectionRef}>
-      {/* Left Half Circle */}
-      <div className="half-circle-left">
-        <div className="circle-path" ref={leftCircleRef}>
-          {leftPhotos.map((photo, index) => {
-            const pos = getPosition(index, leftPhotos.length, radius);
-            return (
-              <motion.div
-                key={`left-${index}`}
-                className="photo-item"
-                style={{
-                  left: `calc(50% + ${pos.x}px - ${offset}px)`,
-                  top: `calc(50% + ${pos.y}px - ${offset}px)`,
-                }}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                transition={{ 
-                  delay: index * 0.1, 
-                  duration: 0.5 
-                }}
-              >
-                <img 
-                  src={photo}
-                  alt={`Gallery photo ${index + 1}`}
+      {/* Desktop View - Rotating Circles */}
+      <div className="desktop-view">
+        {/* Left Half Circle */}
+        <div className="half-circle-left">
+          <div className="circle-path" ref={leftCircleRef}>
+            {leftPhotos.map((photo, index) => {
+              const pos = getPosition(index, leftPhotos.length, radius);
+              return (
+                <motion.div
+                  key={`left-${index}`}
+                  className="photo-item"
                   style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '50%',
+                    left: `calc(50% + ${pos.x}px - ${offset}px)`,
+                    top: `calc(50% + ${pos.y}px - ${offset}px)`,
                   }}
-                />
-              </motion.div>
-            );
-          })}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={isInView ? { scale: 1, opacity: 1 } : {}}
+                  transition={{ 
+                    delay: index * 0.1, 
+                    duration: 0.5 
+                  }}
+                >
+                  <img 
+                    src={photo}
+                    alt={`Gallery photo ${index + 1}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '50%',
+                    }}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Half Circle */}
+        <div className="half-circle-right">
+          <div className="circle-path" ref={rightCircleRef}>
+            {rightPhotos.map((photo, index) => {
+              const pos = getPosition(index, rightPhotos.length, radius);
+              return (
+                <motion.div
+                  key={`right-${index}`}
+                  className="photo-item"
+                  style={{
+                    left: `calc(50% + ${pos.x}px - ${offset}px)`,
+                    top: `calc(50% + ${pos.y}px - ${offset}px)`,
+                  }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={isInView ? { scale: 1, opacity: 1 } : {}}
+                  transition={{ 
+                    delay: 0.5 + index * 0.1, 
+                    duration: 0.5 
+                  }}
+                >
+                  <img 
+                    src={photo}
+                    alt={`Gallery photo ${index + 7}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '50%',
+                    }}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Center Content */}
+      {/* Center Content - Always visible */}
       <motion.div
         className="section-content"
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: isMobile ? 20 : 50 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        transition={{ duration: isMobile ? 0.5 : 0.8, delay: isMobile ? 0.1 : 0.3 }}
       >
         <h2>Memorable Moments</h2>
         <p>
@@ -211,41 +206,29 @@ export default function RotatingCircles() {
         </p>
       </motion.div>
 
-      {/* Right Half Circle */}
-      <div className="half-circle-right">
-        <div className="circle-path" ref={rightCircleRef}>
-          {rightPhotos.map((photo, index) => {
-            const pos = getPosition(index, rightPhotos.length, radius);
-            return (
-              <motion.div
-                key={`right-${index}`}
-                className="photo-item"
-                style={{
-                  left: `calc(50% + ${pos.x}px - ${offset}px)`,
-                  top: `calc(50% + ${pos.y}px - ${offset}px)`,
-                }}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                transition={{ 
-                  delay: 0.5 + index * 0.1, 
-                  duration: 0.5 
-                }}
-              >
-                <img 
-                  src={photo}
-                  alt={`Gallery photo ${index + 7}`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '50%',
-                  }}
-                />
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
+      {/* Mobile View - Grid Layout */}
+      <motion.div
+        className="mobile-grid"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? 'visible' : 'hidden'}
+      >
+        {allPhotos.slice(0, 8).map((photo, index) => (
+          <motion.div
+            key={`mobile-${index}`}
+            className={`mobile-photo-item ${index === 0 ? 'featured' : ''}`}
+            variants={itemVariants}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <img 
+              src={photo}
+              alt={`Gallery photo ${index + 1}`}
+            />
+            <div className="photo-overlay" />
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   );
 }
