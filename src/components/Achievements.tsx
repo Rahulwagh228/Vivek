@@ -108,12 +108,13 @@ export default function Achievements() {
             >
               {achievement.featured && achievement.image && (
                 <div className="card-image">
-                  <div 
-                    className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300"
+                  <img 
+                    src={achievement.image}
+                    alt={achievement.title}
                     style={{
-                      backgroundImage: `url(${achievement.image})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
                     }}
                   />
                 </div>

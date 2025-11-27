@@ -116,12 +116,13 @@ export default function NecklaceGallery() {
                   zIndex: isCenter ? 10 : 1,
                 }}
               >
-                <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300"
+                <img 
+                  src={photo}
+                  alt={`Gallery photo ${index + 1}`}
                   style={{
-                    backgroundImage: `url(${photo})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
                   }}
                 />
               </div>

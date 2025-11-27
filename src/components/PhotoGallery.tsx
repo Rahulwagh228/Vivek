@@ -76,12 +76,13 @@ export default function PhotoGallery() {
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
               >
-                <div 
-                  className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300"
+                <img 
+                  src={item.image} 
+                  alt={item.title}
                   style={{
-                    backgroundImage: `url(${item.image})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
                   }}
                 />
                 <div className="overlay">

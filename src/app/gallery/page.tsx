@@ -119,12 +119,13 @@ export default function GalleryPage() {
                   onClick={() => openLightbox(item)}
                   style={{ height: item.height }}
                 >
-                  <div 
-                    className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300"
+                  <img 
+                    src={item.image}
+                    alt={item.title}
                     style={{
-                      backgroundImage: `url(${item.image})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
                     }}
                   />
                   <div className="item-overlay">
@@ -171,13 +172,14 @@ export default function GalleryPage() {
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div 
-                className="w-full rounded-xl bg-gradient-to-br from-gray-200 to-gray-300"
+              <img 
+                src={selectedImage.image}
+                alt={selectedImage.title}
                 style={{
+                  width: '100%',
                   height: '70vh',
-                  backgroundImage: `url(${selectedImage.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
+                  objectFit: 'cover',
+                  borderRadius: '12px',
                 }}
               />
               <div className="lightbox-info">
