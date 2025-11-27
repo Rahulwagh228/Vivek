@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "John Doe | Public Figure & Philanthropist",
-  description: "Award-winning speaker, philanthropist, and thought leader dedicated to making a positive impact on communities around the globe.",
+  title: "Vivek Sonawane",
+  description: "Award-winning speaker, public <figure></figure>, and thought leader dedicated to making a positive impact on communities around the globe.",
 };
 
 export default function RootLayout({
