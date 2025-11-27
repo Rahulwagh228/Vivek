@@ -2,43 +2,44 @@
 
 .rotating-circles {
   position: relative;
-  min-height: 100vh;
+  min-height: 120vh;
   overflow: hidden;
   background: $color-white;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 4rem 0;
   
   .section-content {
     position: relative;
     z-index: 10;
     text-align: center;
-    max-width: 600px;
+    max-width: 650px;
     padding: 2rem;
     
     h2 {
-      font-size: 3rem;
+      font-size: 3.5rem;
       font-weight: 800;
       color: $color-gray-900;
       letter-spacing: -0.03em;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
     
     p {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: $color-gray-500;
-      line-height: 1.7;
+      line-height: 1.8;
     }
   }
   
   // Left rotating circle
   .half-circle-left {
     position: absolute;
-    left: -250px;
+    left: -300px;
     top: 50%;
     transform: translateY(-50%);
-    width: 500px;
-    height: 500px;
+    width: 650px;
+    height: 650px;
     
     .circle-path {
       position: absolute;
@@ -51,13 +52,19 @@
     
     .photo-item {
       position: absolute;
-      width: 80px;
-      height: 80px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      border: 3px solid $color-white;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+      border: 4px solid $color-white;
       background: $color-gray-100;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
       
       img {
         width: 100%;
@@ -69,8 +76,8 @@
       @for $i from 1 through 6 {
         &:nth-child(#{$i + 1}) {
           $angle: ($i - 1) * 60deg;
-          top: calc(50% + 210px * sin(#{$angle}) - 40px);
-          left: calc(50% + 210px * cos(#{$angle}) - 40px);
+          top: calc(50% + 280px * sin(#{$angle}) - 55px);
+          left: calc(50% + 280px * cos(#{$angle}) - 55px);
           animation: counterRotate 30s linear infinite;
         }
       }
@@ -80,11 +87,11 @@
   // Right rotating circle
   .half-circle-right {
     position: absolute;
-    right: -250px;
+    right: -300px;
     top: 50%;
     transform: translateY(-50%);
-    width: 500px;
-    height: 500px;
+    width: 650px;
+    height: 650px;
     
     .circle-path {
       position: absolute;
@@ -97,13 +104,19 @@
     
     .photo-item {
       position: absolute;
-      width: 80px;
-      height: 80px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      border: 3px solid $color-white;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+      border: 4px solid $color-white;
       background: $color-gray-100;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
       
       img {
         width: 100%;
@@ -114,8 +127,8 @@
       @for $i from 1 through 6 {
         &:nth-child(#{$i + 1}) {
           $angle: ($i - 1) * 60deg + 30deg;
-          top: calc(50% + 210px * sin(#{$angle}) - 40px);
-          left: calc(50% + 210px * cos(#{$angle}) - 40px);
+          top: calc(50% + 280px * sin(#{$angle}) - 55px);
+          left: calc(50% + 280px * cos(#{$angle}) - 55px);
           animation: counterRotate 25s linear infinite reverse;
         }
       }
@@ -141,23 +154,57 @@
   }
 }
 
-// Responsive
-@media (max-width: 1200px) {
+// Responsive - Large screens
+@media (max-width: 1400px) {
   .rotating-circles {
     .half-circle-left,
     .half-circle-right {
-      width: 400px;
-      height: 400px;
+      width: 550px;
+      height: 550px;
       
       .photo-item {
-        width: 60px;
-        height: 60px;
+        width: 95px;
+        height: 95px;
         
         @for $i from 1 through 6 {
           &:nth-child(#{$i + 1}) {
             $angle: ($i - 1) * 60deg;
-            top: calc(50% + 170px * sin(#{$angle}) - 30px);
-            left: calc(50% + 170px * cos(#{$angle}) - 30px);
+            top: calc(50% + 230px * sin(#{$angle}) - 47px);
+            left: calc(50% + 230px * cos(#{$angle}) - 47px);
+          }
+        }
+      }
+    }
+    
+    .half-circle-left {
+      left: -250px;
+    }
+    
+    .half-circle-right {
+      right: -250px;
+    }
+  }
+}
+
+// Responsive - Medium screens
+@media (max-width: 1200px) {
+  .rotating-circles {
+    min-height: 100vh;
+    
+    .half-circle-left,
+    .half-circle-right {
+      width: 450px;
+      height: 450px;
+      
+      .photo-item {
+        width: 80px;
+        height: 80px;
+        
+        @for $i from 1 through 6 {
+          &:nth-child(#{$i + 1}) {
+            $angle: ($i - 1) * 60deg;
+            top: calc(50% + 185px * sin(#{$angle}) - 40px);
+            left: calc(50% + 185px * cos(#{$angle}) - 40px);
           }
         }
       }
@@ -170,12 +217,73 @@
     .half-circle-right {
       right: -200px;
     }
+    
+    .section-content {
+      h2 {
+        font-size: 2.8rem;
+      }
+      
+      p {
+        font-size: 1.1rem;
+      }
+    }
   }
 }
 
+// Responsive - Tablets
+@media (max-width: 992px) {
+  .rotating-circles {
+    min-height: auto;
+    padding: 5rem 1rem;
+    flex-direction: column;
+    gap: 3rem;
+    
+    .half-circle-left,
+    .half-circle-right {
+      position: relative;
+      left: auto !important;
+      right: auto !important;
+      top: auto;
+      transform: none;
+      width: 350px;
+      height: 350px;
+      margin: 0 auto;
+      
+      .photo-item {
+        width: 70px;
+        height: 70px;
+        border-width: 3px;
+        
+        @for $i from 1 through 6 {
+          &:nth-child(#{$i + 1}) {
+            $angle: ($i - 1) * 60deg;
+            top: calc(50% + 140px * sin(#{$angle}) - 35px);
+            left: calc(50% + 140px * cos(#{$angle}) - 35px);
+          }
+        }
+      }
+    }
+    
+    .section-content {
+      order: -1;
+      padding: 1rem;
+      
+      h2 {
+        font-size: 2.2rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+// Responsive - Mobile
 @media (max-width: 768px) {
   .rotating-circles {
-    min-height: 80vh;
+    padding: 3rem 1rem;
+    gap: 2rem;
     
     .half-circle-left,
     .half-circle-right {
@@ -183,22 +291,69 @@
       height: 300px;
       
       .photo-item {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
+        border-width: 2px;
+        
+        @for $i from 1 through 6 {
+          &:nth-child(#{$i + 1}) {
+            $angle: ($i - 1) * 60deg;
+            top: calc(50% + 115px * sin(#{$angle}) - 30px);
+            left: calc(50% + 115px * cos(#{$angle}) - 30px);
+          }
+        }
       }
-    }
-    
-    .half-circle-left {
-      left: -150px;
-    }
-    
-    .half-circle-right {
-      right: -150px;
     }
     
     .section-content {
       h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+      }
+      
+      p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+    }
+  }
+}
+
+// Responsive - Small Mobile
+@media (max-width: 480px) {
+  .rotating-circles {
+    padding: 2rem 0.5rem;
+    gap: 1.5rem;
+    
+    .half-circle-left,
+    .half-circle-right {
+      width: 260px;
+      height: 260px;
+      
+      .photo-item {
+        width: 50px;
+        height: 50px;
+        
+        @for $i from 1 through 6 {
+          &:nth-child(#{$i + 1}) {
+            $angle: ($i - 1) * 60deg;
+            top: calc(50% + 95px * sin(#{$angle}) - 25px);
+            left: calc(50% + 95px * cos(#{$angle}) - 25px);
+          }
+        }
+      }
+    }
+    
+    .section-content {
+      max-width: 100%;
+      padding: 0 1rem;
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      p {
+        font-size: 0.9rem;
       }
     }
   }
