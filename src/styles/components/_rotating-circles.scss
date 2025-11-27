@@ -10,6 +10,74 @@
   justify-content: center;
   padding: 4rem 0;
   
+  // Mobile View Styles
+  &.mobile-view {
+    flex-direction: column;
+    min-height: auto;
+    padding: 4rem 1.5rem;
+    gap: 2rem;
+    
+    .section-content {
+      position: relative;
+      order: -1;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  .mobile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 400px;
+    
+    .mobile-photo-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      
+      &.featured {
+        grid-column: span 2;
+        aspect-ratio: 2/1;
+        
+        img {
+          object-position: center 30%;
+        }
+      }
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+      
+      .photo-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.2) 0%,
+          transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      &:active {
+        .photo-overlay {
+          opacity: 1;
+        }
+        
+        img {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+  
   .section-content {
     position: relative;
     z-index: 10;
@@ -287,30 +355,13 @@
   }
 }
 
-// Responsive - Mobile
+// Responsive - Mobile (using new grid layout via JS)
 @media (max-width: 768px) {
   .rotating-circles {
-    padding: 3rem 1rem;
-    gap: 2rem;
-    
+    // Hide rotating circles on mobile (handled by JS with mobile-view class)
     .half-circle-left,
     .half-circle-right {
-      width: 300px;
-      height: 300px;
-      
-      .photo-item {
-        width: 60px;
-        height: 60px;
-        border-width: 2px;
-        
-        @for $i from 1 through 6 {
-          &:nth-child(#{$i + 1}) {
-            $angle: ($i - 1) * 60deg;
-            top: calc(50% + 115px * sin(#{$angle}) - 30px);
-            left: calc(50% + 115px * cos(#{$angle}) - 30px);
-          }
-        }
-      }
+      display: none;
     }
     
     .section-content {
@@ -324,29 +375,35 @@
         line-height: 1.7;
       }
     }
+    
+    // Mobile grid specific adjustments
+    &.mobile-view {
+      .mobile-grid {
+        gap: 10px;
+        
+        .mobile-photo-item {
+          border-radius: 12px;
+        }
+      }
+    }
   }
 }
 
 // Responsive - Small Mobile
 @media (max-width: 480px) {
   .rotating-circles {
-    padding: 2rem 0.5rem;
-    gap: 1.5rem;
-    
-    .half-circle-left,
-    .half-circle-right {
-      width: 260px;
-      height: 260px;
+    &.mobile-view {
+      padding: 3rem 1rem;
       
-      .photo-item {
-        width: 50px;
-        height: 50px;
+      .mobile-grid {
+        gap: 8px;
+        max-width: 320px;
         
-        @for $i from 1 through 6 {
-          &:nth-child(#{$i + 1}) {
-            $angle: ($i - 1) * 60deg;
-            top: calc(50% + 95px * sin(#{$angle}) - 25px);
-            left: calc(50% + 95px * cos(#{$angle}) - 25px);
+        .mobile-photo-item {
+          border-radius: 10px;
+          
+          &.featured {
+            border-radius: 12px;
           }
         }
       }
@@ -354,7 +411,7 @@
     
     .section-content {
       max-width: 100%;
-      padding: 0 1rem;
+      padding: 0 0.5rem;
       
       h2 {
         font-size: 1.5rem;

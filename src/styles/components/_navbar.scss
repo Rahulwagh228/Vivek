@@ -30,6 +30,7 @@
     font-weight: 700;
     letter-spacing: -0.02em;
     color: $color-gray-900;
+    z-index: 1001;
     
     span {
       color: $color-gray-400;
@@ -95,16 +96,110 @@
     display: none;
     flex-direction: column;
     gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1001;
     
     span {
       width: 28px;
       height: 2px;
       background: $color-gray-900;
       transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    
+    &.active {
+      span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      
+      span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      
+      span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+    }
+  }
+  
+  // Mobile Menu Overlay
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80%;
+    max-width: 350px;
+    height: 100vh;
+    background: $color-white;
+    padding: 100px 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    
+    > div {
+      border-bottom: 1px solid $color-gray-100;
+    }
+    
+    a {
+      display: block;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: $color-gray-700;
+      padding: 1.25rem 0;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        color: $color-gray-900;
+        padding-left: 0.5rem;
+      }
+    }
+  }
+  
+  .mobile-cta {
+    display: block;
+    text-align: center;
+    padding: 1rem 2rem;
+    background: $color-gray-900;
+    color: $color-white;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+    
+    &:hover {
+      background: $color-gray-700;
     }
   }
   
   @media (max-width: 768px) {
+    padding: 1rem 0;
+    
+    .navbar-container {
+      padding: 0 1rem;
+    }
+    
     .nav-links {
       display: none;
     }

@@ -23,6 +23,8 @@ const rightPhotos = [
   'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop&crop=face',
 ];
 
+const allPhotos = [...leftPhotos, ...rightPhotos];
+
 export default function RotatingCircles() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const leftCircleRef = useRef<HTMLDivElement>(null);
@@ -84,9 +86,79 @@ export default function RotatingCircles() {
   };
 
   // Adjust radius based on screen size
-  const radius = isMobile ? 115 : 280;
-  const offset = isMobile ? 30 : 55;
+  const radius = 280;
+  const offset = 55;
 
+  // Mobile grid animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: 'spring' as const,
+        stiffness: 100,
+        damping: 15,
+      },
+    },
+  };
+
+  // Mobile View - Sleek Grid Layout
+  if (isMobile) {
+    return (
+      <section className="rotating-circles mobile-view" ref={sectionRef}>
+        <motion.div
+          className="section-content"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+        >
+          <h2>Memorable Moments</h2>
+          <p>
+            A collection of inspiring moments captured throughout the journey 
+            of making a difference in the world.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="mobile-grid"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+        >
+          {allPhotos.slice(0, 8).map((photo, index) => (
+            <motion.div
+              key={`mobile-${index}`}
+              className={`mobile-photo-item ${index === 0 ? 'featured' : ''}`}
+              variants={itemVariants}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <img 
+                src={photo}
+                alt={`Gallery photo ${index + 1}`}
+              />
+              <div className="photo-overlay" />
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
+    );
+  }
+
+  // Desktop View - Rotating Circles
   return (
     <section className="rotating-circles" ref={sectionRef}>
       {/* Left Half Circle */}
@@ -105,8 +177,8 @@ export default function RotatingCircles() {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : {}}
                 transition={{ 
-                  delay: isMobile ? index * 0.05 : index * 0.1, 
-                  duration: isMobile ? 0.3 : 0.5 
+                  delay: index * 0.1, 
+                  duration: 0.5 
                 }}
               >
                 <img 
@@ -128,9 +200,9 @@ export default function RotatingCircles() {
       {/* Center Content */}
       <motion.div
         className="section-content"
-        initial={{ opacity: 0, y: isMobile ? 20 : 50 }}
+        initial={{ opacity: 0, y: 50 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: isMobile ? 0.4 : 0.8, delay: isMobile ? 0.1 : 0.3 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
       >
         <h2>Memorable Moments</h2>
         <p>
@@ -155,8 +227,8 @@ export default function RotatingCircles() {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : {}}
                 transition={{ 
-                  delay: isMobile ? 0.2 + index * 0.05 : 0.5 + index * 0.1, 
-                  duration: isMobile ? 0.3 : 0.5 
+                  delay: 0.5 + index * 0.1, 
+                  duration: 0.5 
                 }}
               >
                 <img 
