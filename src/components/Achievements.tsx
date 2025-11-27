@@ -12,7 +12,7 @@ const achievements = [
     title: 'Global Leadership Award',
     description: 'Recognized for outstanding contributions to global humanitarian efforts and leadership in social initiatives.',
     featured: true,
-    image: '/images/achievement-1.jpg',
+    image: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=800&h=600&fit=crop',
   },
   {
     id: 2,

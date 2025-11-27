@@ -25,7 +25,7 @@ export default function Navbar() {
     >
       <div className="navbar-container">
         <Link href="/" className="logo">
-          John<span>.</span>Doe
+          Vivek
         </Link>
 
         <div className="nav-links">

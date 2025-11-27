@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">
-            <div className="logo">John<span>.</span>Doe</div>
+            <div className="logo">Vivek</div>
             <p>
               Inspiring millions worldwide through leadership, philanthropy, 
               and a commitment to making the world a better place.
@@ -94,7 +94,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2024 John Doe. All rights reserved.</p>
+          <p>&copy; 2024 Vivek. All rights reserved.</p>
           <div className="footer-legal">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>

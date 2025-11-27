@@ -7,14 +7,14 @@ import Link from 'next/link';
 const categories = ['All', 'Events', 'Speeches', 'Personal', 'Travel'];
 
 const galleryItems = [
-  { id: 1, title: 'Global Summit 2024', category: 'Events', span: '2' },
-  { id: 2, title: 'Keynote Speech NYC', category: 'Speeches' },
-  { id: 3, title: 'Family Time', category: 'Personal' },
-  { id: 4, title: 'Paris Visit', category: 'Travel' },
-  { id: 5, title: 'Award Ceremony', category: 'Events' },
-  { id: 6, title: 'TED Talk', category: 'Speeches', span: 'h' },
-  { id: 7, title: 'Mountain Retreat', category: 'Travel' },
-  { id: 8, title: 'Charity Gala', category: 'Events' },
+  { id: 1, title: 'Global Summit 2024', category: 'Events', span: '2', image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop' },
+  { id: 2, title: 'Keynote Speech NYC', category: 'Speeches', image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&h=400&fit=crop' },
+  { id: 3, title: 'Family Time', category: 'Personal', image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&h=400&fit=crop' },
+  { id: 4, title: 'Paris Visit', category: 'Travel', image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&h=400&fit=crop' },
+  { id: 5, title: 'Award Ceremony', category: 'Events', image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop' },
+  { id: 6, title: 'TED Talk', category: 'Speeches', span: 'h', image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=600&h=800&fit=crop' },
+  { id: 7, title: 'Mountain Retreat', category: 'Travel', image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&h=400&fit=crop' },
+  { id: 8, title: 'Charity Gala', category: 'Events', image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&h=400&fit=crop' },
 ];
 
 export default function PhotoGallery() {
@@ -79,7 +79,7 @@ export default function PhotoGallery() {
                 <div 
                   className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300"
                   style={{
-                    backgroundImage: `url(/images/gallery-${item.id}.jpg)`,
+                    backgroundImage: `url(${item.image})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                   }}
