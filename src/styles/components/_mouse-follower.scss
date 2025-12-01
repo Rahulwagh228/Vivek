@@ -1,0 +1,42 @@
+// Mouse Follower Component Styles
+.mouse-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: #ff6b35; // Orange color
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+//   mix-blend-mode: difference; // Creates interesting visual effects
+  
+  // Add a subtle glow effect
+  box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
+  
+  // Ensure it's visible on all backgrounds
+  &::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    // border: 1px solid rgba(255, 107, 53, 0.3);
+  }
+}
+
+// Optional: Hide default cursor for a more immersive experience
+// Uncomment the following lines if you want to completely replace the default cursor
+/*
+body {
+  cursor: none;
+}
+
+// Show default cursor on interactive elements for better UX
+a, button, input, textarea, select {
+  cursor: pointer !important;
+}
+*/
