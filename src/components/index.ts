@@ -1,6 +1,6 @@
 export { default as Navbar } from './Navbar';
+export type { Lang } from './Navbar';
 export { default as Hero } from './Hero';
-export { default as RotatingCircles } from './RotatingCircles';
 export { default as HorizontalStats } from './HorizontalStats';
 export { default as NecklaceGallery } from './NecklaceGallery';
 export { default as Achievements } from './Achievements';

@@ -1,20 +1,11 @@
-// Global Variables
-$color-white: #ffffff;
-$color-gray-50: #fafafa;
-$color-gray-100: #f5f5f5;
-$color-gray-200: #e5e5e5;
-$color-gray-300: #d4d4d4;
-$color-gray-400: #a3a3a3;
-$color-gray-500: #737373;
-$color-gray-600: #525252;
-$color-gray-700: #404040;
-$color-gray-800: #262626;
-$color-gray-900: #171717;
+@use 'variables' as *;
 
-$font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+// ── Google Fonts import is done via layout.tsx ──
 
-// Base Styles
-* {
+// ────────────────────────────────────────────
+//  RESET & BASE
+// ────────────────────────────────────────────
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -22,59 +13,50 @@ $font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  font-family: $font-primary;
-  background-color: $color-gray-50;
+  font-family: $font-body;
+  background-color: $color-off-white;
   color: $color-gray-800;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-// Utility Classes
+// ────────────────────────────────────────────
+//  TYPOGRAPHY
+// ────────────────────────────────────────────
+h1, h2, h3 {
+  font-family: $font-primary;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h4, h5, h6 {
+  font-family: $font-body;
+  font-weight: 600;
+}
+
+// ────────────────────────────────────────────
+//  UTILITY
+// ────────────────────────────────────────────
 .container {
-  max-width: 1400px;
+  max-width: 1380px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-// Selection
-::selection {
-  background-color: $color-gray-300;
-  color: $color-gray-900;
-}
-
-// Scrollbar
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: $color-gray-100;
-}
-
-::-webkit-scrollbar-thumb {
-  background: $color-gray-400;
-  border-radius: 4px;
-  
-  &:hover {
-    background: $color-gray-500;
-  }
-}
-
-// Link Reset
+// ────────────────────────────────────────────
+//  LINKS & BUTTONS
+// ────────────────────────────────────────────
 a {
   text-decoration: none;
   color: inherit;
 }
 
-// Image Reset
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-// Button Reset
 button {
   border: none;
   background: none;
@@ -82,25 +64,115 @@ button {
   font-family: inherit;
 }
 
-// Placeholder image styles
-.placeholder-img {
-  background: linear-gradient(135deg, $color-gray-200 0%, $color-gray-300 50%, $color-gray-200 100%);
-  background-size: 200% 200%;
-  animation: shimmer 3s ease infinite;
-  
-  &.alt {
-    background: linear-gradient(135deg, $color-gray-300 0%, $color-gray-400 50%, $color-gray-300 100%);
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// ────────────────────────────────────────────
+//  SELECTION
+// ────────────────────────────────────────────
+::selection {
+  background-color: rgba($color-saffron, 0.2);
+  color: $color-navy;
+}
+
+// ────────────────────────────────────────────
+//  SCROLLBAR
+// ────────────────────────────────────────────
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: $color-gray-100;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient($color-saffron, $color-gold);
+  border-radius: $radius-full;
+  &:hover {
+    background: $color-saffron;
   }
 }
 
+// ────────────────────────────────────────────
+//  SECTION COMMON STYLES
+// ────────────────────────────────────────────
+section {
+  position: relative;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: $color-saffron;
+  margin-bottom: 1rem;
+
+  &::before {
+    content: '';
+    width: 24px;
+    height: 2px;
+    background: $color-saffron;
+    border-radius: 2px;
+  }
+}
+
+.section-title {
+  font-family: $font-primary;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  color: $color-navy;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: $color-gray-500;
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+// ────────────────────────────────────────────
+//  DEVANAGARI FONT OVERRIDE (Hindi/Marathi)
+// ────────────────────────────────────────────
+[lang="hi"], [lang="mr"] {
+  font-family: $font-devanagari !important;
+}
+
+// ────────────────────────────────────────────
+//  ANIMATIONS
+// ────────────────────────────────────────────
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+
 @keyframes shimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
 }

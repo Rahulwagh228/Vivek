@@ -7,57 +7,72 @@ import { useGSAP } from '@gsap/react';
 gsap.registerPlugin(useGSAP);
 
 const MouseFollower: React.FC = () => {
-  const followerRef = useRef<HTMLDivElement>(null);
-  const xTo = useRef<gsap.QuickToFunc | null>(null);
-  const yTo = useRef<gsap.QuickToFunc | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const xDot  = useRef<gsap.QuickToFunc | null>(null);
+  const yDot  = useRef<gsap.QuickToFunc | null>(null);
+  const xRing = useRef<gsap.QuickToFunc | null>(null);
+  const yRing = useRef<gsap.QuickToFunc | null>(null);
+  const [visible, setVisible] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   useGSAP(() => {
-    if (followerRef.current) {
-      // Create quickTo functions for smooth animation
-      xTo.current = gsap.quickTo(followerRef.current, "x", {
-        duration: 0.6,
-        ease: "power3"
-      });
-      yTo.current = gsap.quickTo(followerRef.current, "y", {
-        duration: 0.6,
-        ease: "power3"
-      });
+    if (dotRef.current) {
+      xDot.current  = gsap.quickTo(dotRef.current,  'x', { duration: 0.15, ease: 'power3' });
+      yDot.current  = gsap.quickTo(dotRef.current,  'y', { duration: 0.15, ease: 'power3' });
+    }
+    if (ringRef.current) {
+      xRing.current = gsap.quickTo(ringRef.current, 'x', { duration: 0.55, ease: 'power3' });
+      yRing.current = gsap.quickTo(ringRef.current, 'y', { duration: 0.55, ease: 'power3' });
     }
   });
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (xTo.current && yTo.current) {
-        setIsVisible(true);
-        xTo.current(e.clientX);
-        yTo.current(e.clientY);
-      }
+    const onMove = (e: MouseEvent) => {
+      setVisible(true);
+      xDot.current?.(e.clientX);
+      yDot.current?.(e.clientY);
+      xRing.current?.(e.clientX);
+      yRing.current?.(e.clientY);
     };
+    const onLeave  = () => setVisible(false);
+    const onEnterLink = () => setHovered(true);
+    const onLeaveLink = () => setHovered(false);
 
-    const handleMouseLeave = () => {
-      setIsVisible(false);
+    document.addEventListener('mousemove',  onMove);
+    document.addEventListener('mouseleave', onLeave);
+
+    // Track interactive elements
+    const addHoverListeners = () => {
+      document.querySelectorAll('a, button, [data-cursor]').forEach((el) => {
+        el.addEventListener('mouseenter', onEnterLink);
+        el.addEventListener('mouseleave', onLeaveLink);
+      });
     };
-
-    // Add event listeners
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
+    addHoverListeners();
+    const observer = new MutationObserver(addHoverListeners);
+    observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mousemove',  onMove);
+      document.removeEventListener('mouseleave', onLeave);
+      observer.disconnect();
     };
   }, []);
 
   return (
-    <div 
-      ref={followerRef}
-      className="mouse-follower"
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transition: 'opacity 0.3s ease',
-      }}
-    />
+    <>
+      {/* Core dot */}
+      <div
+        ref={dotRef}
+        className={`mf-dot ${visible ? 'visible' : ''} ${hovered ? 'hovered' : ''}`}
+      />
+      {/* Trailing ring */}
+      <div
+        ref={ringRef}
+        className={`mf-ring ${visible ? 'visible' : ''} ${hovered ? 'hovered' : ''}`}
+      />
+    </>
   );
 };
 

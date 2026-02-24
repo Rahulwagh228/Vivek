@@ -2,157 +2,134 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import Image from 'next/image';
 import gsap from 'gsap';
 
-// Sample photos for the new animation
+type Lang = 'en' | 'hi' | 'mr';
+
+const sectionContent: Record<Lang, { tag: string; title: string; subtitle: string }> = {
+  en: {
+    tag: 'Moments',
+    title: 'Life in Focus',
+    subtitle: 'A curated collection of meaningful moments from an extraordinary journey in public service.',
+  },
+  hi: {
+    tag: 'पल',
+    title: 'यादगार पल',
+    subtitle: 'सार्वजनिक सेवा की असाधारण यात्रा के सार्थक क्षणों का संकलन।',
+  },
+  mr: {
+    tag: 'क्षण',
+    title: 'आयुष्याचे क्षण',
+    subtitle: 'सार्वजनिक सेवेतील असाधारण प्रवासातील अर्थपूर्ण क्षणांचा संग्रह।',
+  },
+};
+
 const photos = [
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=300&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=700&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=450&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1559526324-593bc073d938?w=400&h=600&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=350&fit=crop&crop=face',
+  { src: '/images/vivek-with-pm.png', alt: 'With PM Modi', category: 'Leadership' },
+  { src: '/images/vivek-rally.png', alt: 'Public Rally', category: 'Outreach' },
+  { src: '/images/vivek-international.png', alt: 'International Delegation', category: 'Diplomacy' },
+  { src: '/images/vivek-profile.png', alt: 'Official Portrait', category: 'Profile' },
+  { src: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=800&fit=crop', alt: 'Community Work', category: 'Community' },
+  { src: 'https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=600&h=600&fit=crop', alt: 'Press Conference', category: 'Media' },
+  { src: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=700&fit=crop', alt: 'Award Ceremony', category: 'Awards' },
+  { src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=500&fit=crop', alt: 'Public Event', category: 'Events' },
 ];
 
-export default function NecklaceGallery() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-  const [isMobile, setIsMobile] = useState(false);
+interface NecklaceGalleryProps {
+  lang?: Lang;
+}
+
+export default function NecklaceGallery({ lang = 'en' }: NecklaceGalleryProps) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
   const [isMounted, setIsMounted] = useState(false);
   const floatingRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
-    if (isInView && !isMobile && isMounted) {
-      // Create floating animation for photos
-      floatingRefs.current.forEach((item, index) => {
-        if (item) {
-          gsap.fromTo(item, 
-            { 
-              y: 0,
-              rotation: 0,
-              scale: 1
-            },
-            {
-              y: `random(-20, 20)`,
-              rotation: `random(-5, 5)`,
-              duration: `random(3, 6)`,
-              ease: 'sine.inOut',
-              repeat: -1,
-              yoyo: true,
-              delay: index * 0.3
-            }
-          );
-        }
+    if (!isInView || !isMounted) return;
+    floatingRefs.current.forEach((el, i) => {
+      if (!el) return;
+      gsap.to(el, {
+        y: `random(-18, 18)`,
+        rotation: `random(-4, 4)`,
+        duration: `random(3.5, 6)`,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        delay: i * 0.25,
       });
-    }
-
+    });
     return () => {
-      floatingRefs.current.forEach((item) => {
-        if (item) gsap.killTweensOf(item);
-      });
+      floatingRefs.current.forEach((el) => { if (el) gsap.killTweensOf(el); });
     };
-  }, [isInView, isMobile, isMounted]);
+  }, [isInView, isMounted]);
 
-  // Animation variants for mobile
+  const content = sectionContent[lang];
+
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.09, delayChildren: 0.2 } },
   };
 
   const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 60,
-      scale: 0.8 
-    },
+    hidden: { opacity: 0, y: 60, scale: 0.85 },
     visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: 'spring' as const,
-        stiffness: 100,
-        damping: 12,
-      },
-    },
-  };
-
-  const textVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: 'easeOut' as const,
-      },
+      opacity: 1, y: 0, scale: 1,
+      transition: { type: 'spring' as const, stiffness: 80, damping: 14 },
     },
   };
 
   return (
-    <section className="life-in-focus" ref={sectionRef}>
-      <motion.div
-        className="section-header"
-        variants={textVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-      >
-        <h2>Life in Focus</h2>
-        <p>
-          A curated collection showcasing the most meaningful moments 
-          and milestones throughout an extraordinary journey.
-        </p>
-      </motion.div>
+    <section className="life-in-focus" id="gallery" ref={sectionRef}>
+      <div className="container">
+        <motion.div
+          className="lif-header"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <span className="section-tag">{content.tag}</span>
+          <h2 className="section-title">{content.title}</h2>
+          <p className="section-subtitle">{content.subtitle}</p>
+        </motion.div>
+      </div>
 
-      <motion.div
-        className="photos-container"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-      >
-        {isMounted && photos.map((photo, index) => (
-          <motion.div
-            key={index}
-            ref={(el) => { floatingRefs.current[index] = el; }}
-            className={`photo-item photo-${index + 1}`}
-            variants={itemVariants}
-            whileHover={{ 
-              scale: isMobile ? 1.02 : 1.05, 
-              zIndex: 10,
-              transition: { duration: 0.3 }
-            }}
-          >
-            <div className="photo-wrapper">
-              <img 
-                src={photo}
-                alt={`Life moment ${index + 1}`}
-                loading="lazy"
-              />
-              <div className="photo-overlay">
-                <div className="overlay-gradient" />
+      {isMounted && (
+        <motion.div
+          className="photos-container"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+        >
+          {photos.map((photo, i) => (
+            <motion.div
+              key={i}
+              ref={(el) => { floatingRefs.current[i] = el; }}
+              className={`photo-item photo-${i + 1}`}
+              variants={itemVariants}
+              whileHover={{ scale: 1.06, zIndex: 10, transition: { duration: 0.3 } }}
+            >
+              <div className="photo-wrapper">
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+                <div className="photo-overlay">
+                  <span className="photo-category">{photo.category}</span>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
     </section>
   );
 }

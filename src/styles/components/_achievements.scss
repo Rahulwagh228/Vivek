@@ -1,221 +1,212 @@
 @use '../variables' as *;
 
+// ══════════════════════════════════════════
+//  ACHIEVEMENTS SECTION
+// ══════════════════════════════════════════
 .achievements {
   position: relative;
   padding: 8rem 0;
-  background: $color-white;
-  
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
+  background: $color-off-white;
+  overflow: hidden;
+
+  // Background decoration
+  .achievements-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
   }
-  
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+
+  .bg-circle-1 {
+    position: absolute;
+    width: 600px; height: 600px;
+    top: -200px; right: -200px;
+    background: radial-gradient(circle, rgba($color-saffron, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .bg-circle-2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    bottom: -100px; left: -100px;
+    background: radial-gradient(circle, rgba($color-gold, 0.07) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .container { position: relative; z-index: 1; }
+
+  // ── Header ─────────────────────────────────
+  .achievements-header {
     margin-bottom: 4rem;
-    
-    .header-content {
-      max-width: 500px;
-      
-      h2 {
-        font-size: 3rem;
-        font-weight: 800;
-        color: $color-gray-900;
-        letter-spacing: -0.03em;
-        margin-bottom: 1rem;
-      }
-      
-      p {
-        font-size: 1.1rem;
-        color: $color-gray-500;
-        line-height: 1.7;
-      }
+
+    .section-title {
+      max-width: 480px;
     }
-    
-    .view-all {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 1rem;
-      font-weight: 600;
-      color: $color-gray-600;
-      transition: color 0.3s ease;
-      
-      svg {
-        transition: transform 0.3s ease;
-      }
-      
-      &:hover {
-        color: $color-gray-900;
-        
-        svg {
-          transform: translateX(4px);
-        }
-      }
+
+    .saffron-text {
+      color: $color-saffron;
     }
   }
-  
+
+  // ── Grid ───────────────────────────────────
   .achievements-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    grid-auto-rows: auto;
+    gap: 1.5rem;
   }
-  
+
+  // ── Card Base ──────────────────────────────
   .achievement-card {
     position: relative;
-    padding: 2.5rem;
-    background: $color-gray-50;
-    border-radius: 24px;
-    border: 1px solid $color-gray-100;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: $color-white;
+    border-radius: $radius-xl;
     overflow: hidden;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, $color-gray-300, $color-gray-400);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    
+    border: 1px solid $color-gray-100;
+    transition: box-shadow 0.4s $ease-smooth, border-color 0.4s ease;
+    will-change: transform;
+
     &:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
-      border-color: $color-gray-200;
-      
-      &::before {
-        transform: scaleX(1);
-      }
-      
-      .card-icon {
-        background: $color-gray-900;
-        color: $color-white;
+      box-shadow: $shadow-lg;
+      border-color: rgba($color-saffron, 0.2);
+
+      .card-glow {
+        opacity: 1;
       }
     }
-    
-    .card-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      background: $color-white;
-      border: 1px solid $color-gray-200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-      transition: all 0.4s ease;
-      
-      svg {
-        width: 28px;
-        height: 28px;
-      }
-    }
-    
-    .card-year {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      background: $color-white;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: $color-gray-500;
-      margin-bottom: 1rem;
-    }
-    
-    .card-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: $color-gray-900;
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.02em;
-    }
-    
-    .card-description {
-      font-size: 0.95rem;
-      color: $color-gray-500;
-      line-height: 1.7;
-    }
-    
-    // Featured card (larger)
-    &.featured {
+
+    // First card spans 2 columns + has image
+    &.span-2 {
       grid-column: span 2;
-      display: flex;
-      gap: 3rem;
-      
-      .card-image {
-        flex-shrink: 0;
-        width: 200px;
-        height: 200px;
-        border-radius: 16px;
-        overflow: hidden;
-        
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .card-img {
+        position: relative;
+        min-height: 280px;
       }
-      
-      .card-content {
-        flex: 1;
+
+      .card-body {
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
     }
   }
-}
 
-// Responsive
-@media (max-width: 1024px) {
-  .achievements {
+  // Card Image
+  .card-img {
+    position: relative;
+    min-height: 200px;
+    overflow: hidden;
+
+    img { transition: transform 0.6s $ease-smooth; }
+
+    .achievement-card:hover & img {
+      transform: scale(1.04);
+    }
+  }
+
+  .card-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba($color-navy, 0.3) 0%,
+      transparent 60%
+    );
+  }
+
+  // Card Body (no-image cards)
+  .achievement-card:not(.span-2) .card-body {
+    padding: 2rem;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, rgba($color-saffron, 0.12), rgba($color-gold, 0.12));
+    border-radius: $radius-md;
+    flex-shrink: 0;
+  }
+
+  .card-category {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $color-saffron;
+    background: rgba($color-saffron, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: $radius-full;
+  }
+
+  .card-year {
+    margin-left: auto;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $color-gray-400;
+  }
+
+  .card-title {
+    font-family: $font-primary;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: $color-navy;
+    line-height: 1.25;
+    margin-bottom: 0.85rem;
+  }
+
+  .card-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: $color-gray-500;
+  }
+
+  // Glow hover effect
+  .card-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba($color-saffron, 0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  // ── Responsive ─────────────────────────────
+  @media (max-width: 900px) {
     .achievements-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr 1fr;
     }
-    
-    .achievement-card.featured {
+
+    .achievement-card.span-2 {
       grid-column: span 2;
+      grid-template-columns: 1fr;
+
+      .card-img { min-height: 220px; }
     }
   }
-}
 
-@media (max-width: 768px) {
-  .achievements {
+  @media (max-width: 600px) {
     padding: 5rem 0;
-    
-    .section-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-      
-      .header-content {
-        h2 {
-          font-size: 2.5rem;
-        }
-      }
-    }
-    
+
     .achievements-grid {
       grid-template-columns: 1fr;
     }
-    
-    .achievement-card {
-      padding: 2rem;
-      
-      &.featured {
-        grid-column: span 1;
-        flex-direction: column;
-        
-        .card-image {
-          width: 100%;
-          height: 180px;
-        }
-      }
+
+    .achievement-card.span-2 {
+      grid-column: span 1;
     }
   }
 }

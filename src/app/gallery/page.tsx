@@ -67,7 +67,7 @@ export default function GalleryPage() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <main className="gallery-page">
         <div className="container" ref={containerRef}>
           <motion.div

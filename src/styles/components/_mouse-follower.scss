@@ -1,42 +1,63 @@
-// Mouse Follower Component Styles
-.mouse-follower {
+@use '../variables' as *;
+
+// ══════════════════════════════════════════
+//  MOUSE FOLLOWER — Dual element
+// ══════════════════════════════════════════
+
+// Fast center dot
+.mf-dot {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 7px;
-  height: 7px;
-  background-color: #ff6b35; // Orange color
+  top: -5px;
+  left: -5px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  background: $color-saffron;
   pointer-events: none;
   z-index: 9999;
+  opacity: 0;
+  will-change: transform;
+  box-shadow: 0 0 8px rgba($color-saffron, 0.8);
   transform: translate(-50%, -50%);
-//   mix-blend-mode: difference; // Creates interesting visual effects
-  
-  // Add a subtle glow effect
-  box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
-  
-  // Ensure it's visible on all backgrounds
-  &::after {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    border-radius: 50%;
-    // border: 1px solid rgba(255, 107, 53, 0.3);
+  transition: opacity 0.3s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  mix-blend-mode: difference;
+
+  &.visible { opacity: 1; }
+
+  &.hovered {
+    width: 6px;
+    height: 6px;
+    background: $color-gold;
   }
 }
 
-// Optional: Hide default cursor for a more immersive experience
-// Uncomment the following lines if you want to completely replace the default cursor
-/*
-body {
-  cursor: none;
+// Trailing ring
+.mf-ring {
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid rgba($color-saffron, 0.5);
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  will-change: transform;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease, width 0.4s $ease-bounce, height 0.4s $ease-bounce, border-color 0.3s ease;
+
+  &.visible { opacity: 1; }
+
+  &.hovered {
+    width: 60px;
+    height: 60px;
+    border-color: rgba($color-gold, 0.6);
+    background: rgba($color-saffron, 0.05);
+  }
 }
 
-// Show default cursor on interactive elements for better UX
-a, button, input, textarea, select {
-  cursor: pointer !important;
+// Hide on touch devices
+@media (pointer: coarse) {
+  .mf-dot, .mf-ring { display: none; }
 }
-*/
