@@ -8,7 +8,7 @@ import gsap from 'gsap';
 // ─── Translations ───────────────────────────────────────────────
 const t = {
   en: {
-    badge: 'Aspiring Lok Sabha Candidate',
+    badge: 'Visionary Social Leader',
     tagline: 'For the People,\nBy the People',
     name: 'Vivek Sonawane',
     subtitle: 'Youth leader, community builder, and visionary — dedicated to serving Maharashtra and shaping the future of India through inclusive governance.',
@@ -20,7 +20,7 @@ const t = {
     stat4: { num: '30+', label: 'Districts' },
   },
   hi: {
-    badge: 'लोकसभा उम्मीदवार',
+    badge: 'दृढ़निश्चयी युवा नेता',
     tagline: 'जनता के लिए,\nजनता द्वारा',
     name: 'विवेक सोनावणे',
     subtitle: 'युवा नेता, समाज सेवक और दूरदर्शी — महाराष्ट्र की सेवा और समावेशी शासन के माध्यम से भारत के भविष्य को आकार देने के लिए समर्पित।',
@@ -32,7 +32,7 @@ const t = {
     stat4: { num: '१M+', label: 'समर्थक' },
   },
   mr: {
-    badge: 'लोकसभा उमेदवार',
+    badge: 'लोकप्रिय समाजसेवक',
     tagline: 'जनतेसाठी,\nजनतेकडून',
     name: 'विवेक सोनावणे',
     subtitle: 'युवा नेता, समाज सेवक आणि दूरदर्शी — महाराष्ट्राची सेवा आणि सर्वसमावेशक शासनाद्वारे भारताचे भविष्य घडवण्यासाठी समर्पित।',
@@ -212,7 +212,7 @@ export default function Hero({ lang = 'en' }: HeroProps) {
           <div className="photo-backdrop-ring ring-2" />
           <div className="photo-frame">
             <Image
-              src="/images/vivek-profile.png"
+              src="/images/Vivek-Hero-Photo.jpeg"
               alt="Vivek Sonawane"
               fill
               style={{ objectFit: 'cover', objectPosition: 'top center' }}
@@ -243,7 +243,7 @@ export default function Hero({ lang = 'en' }: HeroProps) {
             transition={{ delay: 1.3, duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
           >
             <span>🇮🇳</span>
-            <span>Met PM Modi</span>
+            <span>Driving Positive Change</span>
           </motion.div>
         </motion.div>
       </div>

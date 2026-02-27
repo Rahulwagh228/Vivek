@@ -23,8 +23,8 @@ const devanagari = Noto_Serif_Devanagari({
 });
 
 export const metadata: Metadata = {
-  title: "Vivek Sonawane — Aspiring Lok Sabha Candidate",
-  description: "Official website of Vivek Sonawane — Community leader, youth icon, and aspiring Lok Sabha candidate dedicated to building a stronger, more prosperous India.",
+  title: "Vivek Sonawane — Visionary Social Leader",
+  description: "Official website of Vivek Sonawane — Community leader, youth icon, and visionary social leader dedicated to building a stronger, more prosperous India.",
 };
 
 export default function RootLayout({
