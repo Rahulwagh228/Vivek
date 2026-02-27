@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: #050506; // Elegant deep black
+  background: $color-black-deep;
   isolation: isolate;
 
   // ── Animated Grid Background ──────────────
@@ -71,7 +71,7 @@
   .orb-navy {
     width: 400px; height: 400px;
     bottom: -80px; left: -80px;
-    background: radial-gradient(circle, rgba(10, 10, 15, 0.6) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba($color-black-deep, 0.6) 0%, transparent 70%);
   }
 
   .orb-gold {
@@ -316,7 +316,7 @@
     background: linear-gradient(
       180deg,
       transparent 50%,
-      rgba(#050506, 0.8) 100%
+      rgba($color-black-deep, 0.8) 100%
     );
     z-index: 1;
   }

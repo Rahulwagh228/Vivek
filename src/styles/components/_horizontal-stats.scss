@@ -5,7 +5,7 @@
 // ══════════════════════════════════════════
 .horizontal-stats {
   padding: 4rem 0;
-  background: #0d0d0f; // Slightly different dark shade for distinction
+  background: $color-black-soft;
   overflow: hidden;
   position: relative;
 
@@ -19,11 +19,11 @@
   }
   &::before {
     left: 0;
-    background: linear-gradient(to right, #0d0d0f, transparent);
+    background: linear-gradient(to right, $color-black-soft, transparent);
   }
   &::after {
     right: 0;
-    background: linear-gradient(to left, #0d0d0f, transparent);
+    background: linear-gradient(to left, $color-black-soft, transparent);
   }
 
   .marquee-wrapper {
