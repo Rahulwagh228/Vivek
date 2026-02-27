@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar, Footer } from '@/components';
+import type { Lang } from '@/components';
 
 const categories = ['All', 'Events', 'Speeches', 'Personal', 'Travel', 'Awards'];
 
@@ -35,6 +36,7 @@ interface GalleryItem {
 }
 
 export default function GalleryPage() {
+  const [lang, setLang] = useState<Lang>('en');
   const [activeFilter, setActiveFilter] = useState('All');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
@@ -47,27 +49,33 @@ export default function GalleryPage() {
   const openLightbox = (item: GalleryItem) => {
     setSelectedImage(item);
     setLightboxOpen(true);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeLightbox = () => {
     setLightboxOpen(false);
     setSelectedImage(null);
-    document.body.style.overflow = 'auto';
   };
 
   const navigateImage = (direction: 'prev' | 'next') => {
     if (!selectedImage) return;
     const currentIndex = filteredItems.findIndex(item => item.id === selectedImage.id);
-    let newIndex = direction === 'next' 
+    const newIndex = direction === 'next' 
       ? (currentIndex + 1) % filteredItems.length
       : (currentIndex - 1 + filteredItems.length) % filteredItems.length;
     setSelectedImage(filteredItems[newIndex]);
   };
 
+  useEffect(() => {
+    if (lightboxOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [lightboxOpen]);
+
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar lang={lang} setLang={setLang} />
       <main className="gallery-page">
         <div className="container" ref={containerRef}>
           <motion.div
@@ -200,7 +208,7 @@ export default function GalleryPage() {
         )}
       </AnimatePresence>
 
-      <Footer />
+      <Footer lang={lang} />
     </>
   );
 }

@@ -47,12 +47,14 @@ export default function NecklaceGallery({ lang = 'en' }: NecklaceGalleryProps) {
   const floatingRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
   useEffect(() => {
     if (!isInView || !isMounted) return;
-    floatingRefs.current.forEach((el, i) => {
+    const currentRefs = floatingRefs.current;
+    currentRefs.forEach((el, i) => {
       if (!el) return;
       gsap.to(el, {
         y: `random(-18, 18)`,
@@ -65,7 +67,7 @@ export default function NecklaceGallery({ lang = 'en' }: NecklaceGalleryProps) {
       });
     });
     return () => {
-      floatingRefs.current.forEach((el) => { if (el) gsap.killTweensOf(el); });
+      currentRefs.forEach((el) => { if (el) gsap.killTweensOf(el); });
     };
   }, [isInView, isMounted]);
 

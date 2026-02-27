@@ -42,11 +42,14 @@ export default function RotatingCircles() {
   }, []);
 
   useEffect(() => {
+    const leftCircle = leftCircleRef.current;
+    const rightCircle = rightCircleRef.current;
+
     // Only run GSAP animations on desktop
     if (isInView && !isMobile) {
       // Animate left circle
-      if (leftCircleRef.current) {
-        gsap.to(leftCircleRef.current, {
+      if (leftCircle) {
+        gsap.to(leftCircle, {
           rotation: -360,
           duration: 30,
           repeat: -1,
@@ -55,8 +58,8 @@ export default function RotatingCircles() {
       }
       
       // Animate right circle
-      if (rightCircleRef.current) {
-        gsap.to(rightCircleRef.current, {
+      if (rightCircle) {
+        gsap.to(rightCircle, {
           rotation: -360,
           duration: 25,
           repeat: -1,
@@ -67,11 +70,11 @@ export default function RotatingCircles() {
 
     return () => {
       // Clean up GSAP animations
-      if (leftCircleRef.current) {
-        gsap.killTweensOf(leftCircleRef.current);
+      if (leftCircle) {
+        gsap.killTweensOf(leftCircle);
       }
-      if (rightCircleRef.current) {
-        gsap.killTweensOf(rightCircleRef.current);
+      if (rightCircle) {
+        gsap.killTweensOf(rightCircle);
       }
     };
   }, [isInView, isMobile]);
